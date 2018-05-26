@@ -9,4 +9,7 @@ export class VisualEntity {
 
     constructor() {
     }
+
+    public goDown(): void {
+    }
 }

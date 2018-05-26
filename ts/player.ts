@@ -4,6 +4,7 @@ import { Keyboard, Key } from "./keyboard.js";
 
 
 export class Player extends VisualEntity {
+    
     private static self: Player;
     private keyboard: Keyboard;
 
@@ -13,6 +14,7 @@ export class Player extends VisualEntity {
         Player.self = this;
     }
 
+
     public static handleKeyBoardInput(keyCode: number) {
         // player not init yet
         if(!Player.self)
@@ -21,8 +23,7 @@ export class Player extends VisualEntity {
         // if valid key we can move player now
         switch (Player.self.keyboard.getDirection(keyCode)) {
             case Key.down:
-                console.log(`dooooooooooooown!!!!`);
-                
+                Player.self.goDown();
                 break;
 
             default:
