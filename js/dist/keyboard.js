@@ -1,4 +1,4 @@
-var Key;
+export var Key;
 (function (Key) {
     Key[Key["left"] = 0] = "left";
     Key[Key["right"] = 1] = "right";
@@ -16,5 +16,8 @@ export class Keyboard {
     }
     isKeyValid(keyCode) {
         return this.keyMap[keyCode] !== undefined;
+    }
+    getDirection(keyCode) {
+        return this.keyMap[keyCode];
     }
 }
