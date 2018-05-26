@@ -1,22 +1,33 @@
-export class Player {
-    public start() {
+import { VisualEntity } from "./visual-entity.js";
 
+enum Key {
+    left,
+    right,
+    up, 
+    down
+}
+const keyMap = {
+    37: Key.left,
+    38: Key.up,
+    39: Key.right,
+    40: Key.down,
+};
+
+export class Player extends VisualEntity {
+    constructor() {
+        super();
     }
-    public static handleKeyBoardInput(keyId: string) {
 
+    public static handleKeyBoardInput(keyCode: number) {
+        console.log(`pressed: `, keyCode);
+        if(keyMap[keyCode]) {
+            // valid keyboard key
+        }
     }
 }
-
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
-    const allowedKeys = {
-        37: 'left',
-        38: 'up',
-        39: 'right',
-        40: 'down'
-    };
-
-    Player.handleKeyBoardInput(allowedKeys[e.keyCode]);
+    Player.handleKeyBoardInput(e.keyCode);
 });
