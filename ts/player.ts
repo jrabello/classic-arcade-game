@@ -1,27 +1,31 @@
 import { VisualEntity } from "./visual-entity.js";
+import { Keyboard, Key } from "./keyboard.js";
 
-enum Key {
-    left,
-    right,
-    up, 
-    down
-}
-const keyMap = {
-    37: Key.left,
-    38: Key.up,
-    39: Key.right,
-    40: Key.down,
-};
+
 
 export class Player extends VisualEntity {
+    private static self: Player;
+    private keyboard: Keyboard;
+
     constructor() {
         super();
+        this.keyboard = new Keyboard();
+        Player.self = this;
     }
 
     public static handleKeyBoardInput(keyCode: number) {
-        console.log(`pressed: `, keyCode);
-        if(keyMap[keyCode]) {
-            // valid keyboard key
+        // player not init yet
+        if(!Player.self)
+            return;
+
+        // valid keyboard key we can move player now
+        switch (Player.self.keyboard.getDirection(keyCode)) {
+            case Key.down:
+
+                break;
+
+            default:
+                break;
         }
     }
 }
