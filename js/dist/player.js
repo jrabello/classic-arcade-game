@@ -1,5 +1,5 @@
 import { VisualEntity } from "./visual-entity.js";
-import { Keyboard } from "./keyboard.js";
+import { Keyboard, Key } from "./keyboard.js";
 export class Player extends VisualEntity {
     constructor() {
         super();
@@ -7,9 +7,16 @@ export class Player extends VisualEntity {
         Player.self = this;
     }
     static handleKeyBoardInput(keyCode) {
-        console.log(`pressed: `, keyCode);
-        if (Player.self.keyboard.isKeyValid(keyCode)) {
-            // valid keyboard key we can move player now
+        // player not init yet
+        if (!Player.self)
+            return;
+        // if valid key we can move player now
+        switch (Player.self.keyboard.getDirection(keyCode)) {
+            case Key.down:
+                console.log(`dooooooooooooown!!!!`);
+                break;
+            default:
+                break;
         }
     }
 }

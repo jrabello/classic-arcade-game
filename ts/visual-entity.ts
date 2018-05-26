@@ -8,6 +8,5 @@ export class VisualEntity {
     imgUrl: HTMLImageElement;
 
     constructor() {
-        console.log(`VisualEntity!!!`);
     }
 }

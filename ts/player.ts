@@ -18,10 +18,11 @@ export class Player extends VisualEntity {
         if(!Player.self)
             return;
 
-        // valid keyboard key we can move player now
+        // if valid key we can move player now
         switch (Player.self.keyboard.getDirection(keyCode)) {
             case Key.down:
-
+                console.log(`dooooooooooooown!!!!`);
+                
                 break;
 
             default:
