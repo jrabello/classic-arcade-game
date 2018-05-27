@@ -5,7 +5,7 @@ export class Game {
     player: Player;
     enemies: TEnemyList;
 
-    constructor(){
+    constructor() {
         this.player = new Player()
     }
 
