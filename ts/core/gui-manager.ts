@@ -1,4 +1,5 @@
 import { Resources } from "../resources.js";
+import { TEntityList } from "../entities/entity.js";
 
 export class GUIManager {
     
@@ -6,11 +7,13 @@ export class GUIManager {
     resources: Resources;
     canvas: HTMLCanvasElement;
     renderCtx: CanvasRenderingContext2D;
+    entities: TEntityList;
     scene: string[];
     lastTime: number;
 
-    constructor() {
+    constructor(entities: TEntityList) {
         GUIManager.self = this;
+        this.entities = entities;
         this.resources = new Resources();
         this.scene = [
             'images/stone-block.png',
@@ -55,13 +58,12 @@ export class GUIManager {
         
         let now = Date.now(),
             dt = (now - GUIManager.self.lastTime) / 1000.0;
-        // console.log(`dt`,dt);
         
         /* Call our update/render functions, pass along the time delta to
          * our update function since it may be used for smooth animation.
          */
         GUIManager.self.update(dt);
-        GUIManager.self.render();
+        GUIManager.self.renderScene();
 
         /* Set our lastTime variable which is used to determine the time delta
          * for the next time this function is called.
@@ -81,7 +83,7 @@ export class GUIManager {
      * they are flipbooks creating the illusion of animation but in reality
      * they are just drawing the entire screen over and over.
      */
-    private render() {
+    private renderScene() {
         /* This array holds the relative URL to the image used
          * for that particular row of the game level.
          */
@@ -131,11 +133,11 @@ export class GUIManager {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
-        this.enemies.forEach((enemy) => {
-            enemy.render(dt);
+        this.entities.forEach((entity) => {
+            // entity.render(dt);
         });
 
-        this.player.render();
+        // this.player.render();
     }
 
     update(dt) {

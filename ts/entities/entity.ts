@@ -12,6 +12,8 @@ export interface IImageUrl {
     url: string;
 }
 
+export declare type TEntityList = Entity[];   
+
 export class Entity {
     point: IPoint;
     imgUrl: IImageUrl;

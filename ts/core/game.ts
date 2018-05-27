@@ -4,13 +4,12 @@ import { Player } from '../entities/player.js';
 import { GUIManager } from "./gui-manager.js";
 
 export class Game {
-    player: Player;
-    enemies: TEnemyList;
     guiManager: GUIManager;
 
     constructor() {
-        this.player = new Player();
-        this.enemies = Array(10).fill(0).map(_ => new Enemy());
+        this.guiManager = new GUIManager([
+            new Player({url: ``}),
+            ...Array(10).fill(0).map(_ => new Enemy({url: ``}))]);
     }
 
     public async start() {
