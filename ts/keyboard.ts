@@ -29,6 +29,7 @@ export class Keyboard {
 
     constructor(kbdUser: IKeyboardUser) {
         this.user = kbdUser;
+        Keyboard.self = this;
     }
 
     public getDirection(keyCode: number): Key {

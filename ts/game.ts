@@ -1,5 +1,5 @@
 import { Resources } from "./resources.js";
-import { TEnemyList } from "./players/enemy.js";
+import { TEnemyList, Enemy } from "./players/enemy.js";
 import { User } from './players/user.js';
 
 export class Game {
@@ -10,10 +10,13 @@ export class Game {
     renderCtx: CanvasRenderingContext2D;
     scene: string[];
     lastTime: number;
+    private static self: Game;
 
     constructor() {
-        this.user = new User()
-        this.resources = new Resources()
+        Game.self = this;
+        this.user = new User();
+        this.resources = new Resources();
+        this.enemies = Array(10).fill(0).map(_ => new Enemy());
         this.scene = [
             'images/stone-block.png',
             'images/water-block.png',
@@ -43,35 +46,36 @@ export class Game {
 
         this.reset();
         this.lastTime = Date.now();
-        this.mainLoop();
+        Game.mainLoop();
     }
 
-    private mainLoop() {
+    private static mainLoop() {
         /* Get our time delta information which is required if your game
          * requires smooth animation. Because everyone's computer processes
          * instructions at different speeds we need a constant value that
          * would be the same for everyone (regardless of how fast their
          * computer is) - hurray time!
          */
-        var now = Date.now(),
-            dt = (now - this.lastTime) / 1000.0;
+        
+        let now = Date.now(),
+            dt = (now - Game.self.lastTime) / 1000.0;
         // console.log(`dt`,dt);
         
         /* Call our update/render functions, pass along the time delta to
          * our update function since it may be used for smooth animation.
          */
-        this.update(dt);
-        this.render();
+        Game.self.update(dt);
+        Game.self.render();
 
         /* Set our lastTime variable which is used to determine the time delta
          * for the next time this function is called.
          */
-        this.lastTime = now;
+        Game.self.lastTime = now;
 
         /* Use the browser's requestAnimationFrame function to call this
          * function again as soon as the browser is able to draw another frame.
          */
-        window.requestAnimationFrame(this.mainLoop);
+        window.requestAnimationFrame(Game.mainLoop);
     }
 
     /* This function initially draws the "game level", it will then call
@@ -80,11 +84,11 @@ export class Game {
      * they are flipbooks creating the illusion of animation but in reality
      * they are just drawing the entire screen over and over.
      */
-    render() {
+    private render() {
         /* This array holds the relative URL to the image used
          * for that particular row of the game level.
          */
-        var rowImages = [
+        let rowImages = [
                 'images/water-block.png',   // Top row is water
                 'images/stone-block.png',   // Row 1 of 3 of stone
                 'images/stone-block.png',   // Row 2 of 3 of stone
@@ -130,7 +134,7 @@ export class Game {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
-        this.enemies.forEach(function(enemy) {
+        this.enemies.forEach((enemy) => {
             enemy.render(dt);
         });
 

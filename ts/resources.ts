@@ -15,12 +15,12 @@ export class Resources {
     }
 
     async fillResourceCache(images: Array<string>): Promise<void> {
-        images.forEach( async (imageUrl) => {
+        for (const imageUrl of images) {
             const img = new Image();
             img.src = imageUrl;
             await this.loadImage(img);
             this.resourceCache[imageUrl] = img;
-        })
+        }
         return;
     }
 

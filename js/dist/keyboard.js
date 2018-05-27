@@ -8,6 +8,7 @@ export var Key;
 export class Keyboard {
     constructor(kbdUser) {
         this.user = kbdUser;
+        Keyboard.self = this;
     }
     getDirection(keyCode) {
         return Keyboard.keyMap[keyCode];

@@ -10,14 +10,17 @@ export class Resources {
     constructor() {
         this.resourceCache = {};
     }
+    getFromCache(url) {
+        return this.resourceCache[url];
+    }
     fillResourceCache(images) {
         return __awaiter(this, void 0, void 0, function* () {
-            images.forEach((imageUrl) => __awaiter(this, void 0, void 0, function* () {
+            for (const imageUrl of images) {
                 const img = new Image();
                 img.src = imageUrl;
                 yield this.loadImage(img);
                 this.resourceCache[imageUrl] = img;
-            }));
+            }
             return;
         });
     }
@@ -25,7 +28,6 @@ export class Resources {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise((res, rej) => {
                 img.onload = () => {
-                    console.log(`onload!!!!`, img);
                     res(img);
                 };
             });
