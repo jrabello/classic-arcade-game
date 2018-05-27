@@ -30,7 +30,7 @@ export class Keyboard {
     constructor(kbdUser: IKeyboardUser) {
         this.user = kbdUser;
     }
-    
+
     public getDirection(keyCode: number): Key {
         return Keyboard.keyMap[keyCode];
     }

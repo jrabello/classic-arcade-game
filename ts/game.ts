@@ -1,16 +1,28 @@
 import { Player } from "./player.js";
-import { Enemy, TEnemyList } from './enemy.js';
+import { TEnemyList } from './enemy.js';
+import { Resources } from "./resources.js";
 
 export class Game {
     player: Player;
     enemies: TEnemyList;
+    resources: Resources;
 
     constructor() {
         this.player = new Player()
+        this.resources = new Resources()
     }
 
-    public start() {
+    public async start() {
         // load images
+        await this.resources.fillResourceCache([
+            'images/stone-block.png',
+            'images/water-block.png',
+            'images/grass-block.png',
+            'images/enemy-bug.png',
+            'images/char-boy.png'
+        ])
+        console.log(this.resources);
+        
         // initialize canvas
     }
 }

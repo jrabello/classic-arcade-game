@@ -1,6 +1,4 @@
-import { VisualEntity } from "./visual-entity.js";
-export class Enemy extends VisualEntity {
+export class Enemy {
     constructor() {
-        super();
     }
 }

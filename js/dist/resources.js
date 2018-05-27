@@ -6,25 +6,27 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { Player } from "./player.js";
-import { Resources } from "./resources.js";
-export class Game {
+export class Resources {
     constructor() {
-        this.player = new Player();
-        this.resources = new Resources();
+        this.resourceCache = {};
     }
-    start() {
+    fillResourceCache(images) {
         return __awaiter(this, void 0, void 0, function* () {
-            // load images
-            yield this.resources.fillResourceCache([
-                'images/stone-block.png',
-                'images/water-block.png',
-                'images/grass-block.png',
-                'images/enemy-bug.png',
-                'images/char-boy.png'
-            ]);
-            console.log(this.resources);
-            // initialize canvas
+            images.forEach((imageUrl) => __awaiter(this, void 0, void 0, function* () {
+                const img = new Image();
+                yield this.loadImage(img);
+                this.resourceCache[imageUrl] = img;
+            }));
+            return;
+        });
+    }
+    loadImage(img) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((res, rej) => {
+                img.onload = () => {
+                    res(img);
+                };
+            });
         });
     }
 }

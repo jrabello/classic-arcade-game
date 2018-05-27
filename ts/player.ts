@@ -1,4 +1,3 @@
-import { Keyboard, Key } from "./keyboard.js";
 
 interface IPoint {
     x: number;

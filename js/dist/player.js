@@ -1,27 +1,2 @@
-import { VisualEntity } from "./visual-entity.js";
-import { Keyboard, Key } from "./keyboard.js";
-export class Player extends VisualEntity {
-    constructor() {
-        super();
-        this.keyboard = new Keyboard();
-        Player.self = this;
-    }
-    static handleKeyBoardInput(keyCode) {
-        // player not init yet
-        if (!Player.self)
-            return;
-        // if valid key we can move player now
-        switch (Player.self.keyboard.getDirection(keyCode)) {
-            case Key.down:
-                Player.self.goDown();
-                break;
-            default:
-                break;
-        }
-    }
+export class Player {
 }
-// This listens for key presses and sends the keys to your
-// Player.handleInput() method. You don't need to modify this.
-document.addEventListener('keyup', function (e) {
-    Player.handleKeyBoardInput(e.keyCode);
-});
