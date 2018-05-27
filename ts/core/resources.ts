@@ -40,6 +40,8 @@ export class Resources {
     }
 
     async fillResourceCache(images: Array<string>): Promise<void> {
+        console.log(images);
+        
         for (const imageUrl of images) {
             const img = new Image();
             img.src = imageUrl;
