@@ -16,9 +16,9 @@ export class GUIManager {
         this.entities = entities;
         this.resources = new Resources();
         this.scene = [
-            'images/stone-block.png',
-            'images/water-block.png',
-            'images/grass-block.png'
+            Resources.getConstants().images.stone,
+            Resources.getConstants().images.water,
+            Resources.getConstants().images.grass
         ];
     }
 
@@ -26,8 +26,7 @@ export class GUIManager {
         // load images in cache( hashmaps FTW :D )
         await this.resources.fillResourceCache([
             ...this.scene,
-            'images/enemy-bug.png',
-            'images/char-boy.png'
+            ...this.entities.map(entity => entity.getImgUrl().url)
         ]);
         
         // initialize canvas and run mainLoop
@@ -88,12 +87,12 @@ export class GUIManager {
          * for that particular row of the game level.
          */
         let rowImages = [
-                'images/water-block.png',   // Top row is water
-                'images/stone-block.png',   // Row 1 of 3 of stone
-                'images/stone-block.png',   // Row 2 of 3 of stone
-                'images/stone-block.png',   // Row 3 of 3 of stone
-                'images/grass-block.png',   // Row 1 of 2 of grass
-                'images/grass-block.png'    // Row 2 of 2 of grass
+                Resources.getConstants().images.water,   // Top row is water
+                Resources.getConstants().images.stone,   // Row 1 of 3 of stone
+                Resources.getConstants().images.stone,   // Row 2 of 3 of stone
+                Resources.getConstants().images.stone,   // Row 3 of 3 of stone
+                Resources.getConstants().images.grass,   // Row 1 of 2 of grass
+                Resources.getConstants().images.grass,    // Row 2 of 2 of grass
             ],
             numRows = 6,
             numCols = 5,

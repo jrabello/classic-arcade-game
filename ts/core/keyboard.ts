@@ -18,7 +18,7 @@ interface IKeyCodeToAllowed {
 
 
 export class Keyboard {
-    private user: IKeyboardUser;
+    private kbdUser: IKeyboardUser;
     private static self: Keyboard;
     private static keyMap: IKeyCodeToAllowed = {
         37: Key.left,
@@ -28,7 +28,7 @@ export class Keyboard {
     };
 
     constructor(kbdUser: IKeyboardUser) {
-        this.user = kbdUser;
+        this.kbdUser = kbdUser;
         Keyboard.self = this;
     }
 
@@ -44,7 +44,7 @@ export class Keyboard {
         // if valid key we can move player now
         switch (Keyboard.self.getDirection(keyCode)) {
             case Key.down:
-                Keyboard.self.user.goDown();
+                Keyboard.self.kbdUser.goDown();
                 break;
             default:
                 break;

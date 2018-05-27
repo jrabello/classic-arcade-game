@@ -6,9 +6,13 @@ export class Game {
     guiManager: GUIManager;
 
     constructor() {
+        // creates player and enemies
         this.guiManager = new GUIManager([
             new Player({url: ``}),
-            ...Array(10).fill(0).map(_ => new Enemy({url: ``}))]);
+            ...Array(10)
+                .fill(0)
+                .map(_ => new Enemy({url: ``}))
+        ]);
     }
 
     public async start() {

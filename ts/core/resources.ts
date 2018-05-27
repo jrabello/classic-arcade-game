@@ -3,14 +3,39 @@ interface IResourceCache {
     [url: string]: HTMLImageElement;
 }
 
+interface IImageList {
+    stone:  string,
+    water:  string,
+    grass:  string,
+    enemy:  string,
+    player: string,
+}
+
+export interface IResourceConstants {
+    images: IImageList;
+}
+
 export class Resources {
     private resourceCache: IResourceCache;
+    private static constants: IResourceConstants = {
+        images: {
+            stone:  'images/stone-block.png',
+            water:  'images/water-block.png',
+            grass:  'images/grass-block.png',
+            enemy:  'images/enemy-bug.png',
+            player: 'images/char-boy.png',
+        }
+    }
 
     constructor() {
         this.resourceCache = {};
     }
 
-    getFromCache(url: string): HTMLImageElement {
+    static getConstants(): IResourceConstants {
+        return Resources.constants;
+    }
+
+    public getFromCache(url: string): HTMLImageElement {
         return this.resourceCache[url];
     }
 
@@ -31,4 +56,5 @@ export class Resources {
             }
         })
     }
+
 }
