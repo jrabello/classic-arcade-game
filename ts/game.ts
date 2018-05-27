@@ -1,13 +1,13 @@
-import { TEnemyList } from './enemy.js';
 import { Resources } from "./resources.js";
-import { User } from './user.js';
+import { TEnemyList } from "./players/enemy.js";
+import { User } from './players/user.js';
 
 export class Game {
     user: User;
     enemies: TEnemyList;
     resources: Resources;
-    ctx: CanvasRenderingContext2D;
     canvas: HTMLCanvasElement;
+    renderCtx: CanvasRenderingContext2D;
     scene: string[];
     lastTime: number;
 
@@ -27,16 +27,16 @@ export class Game {
             ...this.scene,
             'images/enemy-bug.png',
             'images/char-boy.png'
-        ])
+        ]);
         
         // initialize canvas and run mainLoop
         this.run();
     }
 
     private run(): void {
+        // init canvas
         this.canvas = document.createElement('canvas');
-        this.ctx = this.canvas.getContext('2d');
-
+        this.renderCtx = this.canvas.getContext('2d');
         this.canvas.width = 505;
         this.canvas.height = 606;
         document.body.appendChild(this.canvas);
@@ -97,7 +97,7 @@ export class Game {
             row, col;
         
         // Before drawing, clear existing canvas
-        this.ctx.clearRect(0,0, this.canvas.width, this.canvas.height)
+        this.renderCtx.clearRect(0,0, this.canvas.width, this.canvas.height)
 
         /* Loop through the number of rows and columns we've defined above
          * and, using the rowImages array, draw the correct image for that
@@ -112,7 +112,7 @@ export class Game {
                  * so that we get the benefits of caching these images, since
                  * we're using them over and over.
                  */
-                this.ctx.drawImage(
+                this.renderCtx.drawImage(
                     this.resources.getFromCache(rowImages[row]), 
                     col * 101, 
                     row * 83);
@@ -126,15 +126,20 @@ export class Game {
      * tick. Its purpose is to then call the render functions you have defined
      * on your enemy and player entities within app.js
      */
-    renderEntities() {
+    renderEntities(dt?: number) {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
         this.enemies.forEach(function(enemy) {
-            enemy.render();
+            enemy.render(dt);
         });
 
         this.user.render();
+    }
+
+    update(dt) {
+        this.renderEntities(dt);
+        // checkCollisions();
     }
 
     /* This function does nothing but it could have been a good place to

@@ -1,11 +1,13 @@
-import { Keyboard, IKeyboardUser } from "./keyboard.js";
+import { Keyboard, IKeyboardUser } from "../keyboard.js";
+import { Player } from "./player.js";
 
 
-export class User implements IKeyboardUser {
+export class User extends Player implements IKeyboardUser {
     
     private keyboard: Keyboard;
 
     constructor() {
+        super();
         this.keyboard = new Keyboard(this);
     }
     
