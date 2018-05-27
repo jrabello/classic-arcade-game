@@ -4,11 +4,14 @@ interface IResourceCache {
 }
 
 export class Resources {
-    
     private resourceCache: IResourceCache;
 
     constructor() {
         this.resourceCache = {};
+    }
+
+    getFromCache(url: string): HTMLImageElement {
+        return this.resourceCache[url];
     }
 
     async fillResourceCache(images: Array<string>): Promise<void> {

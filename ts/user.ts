@@ -1,7 +1,7 @@
 import { Keyboard, IKeyboardUser } from "./keyboard.js";
 
 
-export class Person implements IKeyboardUser {
+export class User implements IKeyboardUser {
     
     private keyboard: Keyboard;
 
