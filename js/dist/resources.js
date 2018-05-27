@@ -14,6 +14,7 @@ export class Resources {
         return __awaiter(this, void 0, void 0, function* () {
             images.forEach((imageUrl) => __awaiter(this, void 0, void 0, function* () {
                 const img = new Image();
+                img.src = imageUrl;
                 yield this.loadImage(img);
                 this.resourceCache[imageUrl] = img;
             }));
@@ -24,6 +25,7 @@ export class Resources {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise((res, rej) => {
                 img.onload = () => {
+                    console.log(`onload!!!!`, img);
                     res(img);
                 };
             });
