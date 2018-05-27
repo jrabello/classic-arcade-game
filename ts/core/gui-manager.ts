@@ -1,22 +1,17 @@
-import { Resources } from "./resources.js";
-import { TEnemyList, Enemy } from "./players/enemy.js";
-import { User } from './players/user.js';
+import { Resources } from "../resources.js";
 
-export class Game {
-    user: User;
-    enemies: TEnemyList;
+export class GUIManager {
+    
+    private static self: GUIManager;
     resources: Resources;
     canvas: HTMLCanvasElement;
     renderCtx: CanvasRenderingContext2D;
     scene: string[];
     lastTime: number;
-    private static self: Game;
 
     constructor() {
-        Game.self = this;
-        this.user = new User();
+        GUIManager.self = this;
         this.resources = new Resources();
-        this.enemies = Array(10).fill(0).map(_ => new Enemy());
         this.scene = [
             'images/stone-block.png',
             'images/water-block.png',
@@ -24,7 +19,7 @@ export class Game {
         ];
     }
 
-    public async start() {
+    async run() {
         // load images in cache( hashmaps FTW :D )
         await this.resources.fillResourceCache([
             ...this.scene,
@@ -33,10 +28,10 @@ export class Game {
         ]);
         
         // initialize canvas and run mainLoop
-        this.run();
+        this.initCanvas();
     }
-
-    private run(): void {
+    
+    private initCanvas(): any {
         // init canvas
         this.canvas = document.createElement('canvas');
         this.renderCtx = this.canvas.getContext('2d');
@@ -44,12 +39,13 @@ export class Game {
         this.canvas.height = 606;
         document.body.appendChild(this.canvas);
 
+        // start main loop
         this.reset();
         this.lastTime = Date.now();
-        Game.mainLoop();
+        GUIManager.mainLoop();
     }
 
-    private static mainLoop() {
+    private static mainLoop(): any {
         /* Get our time delta information which is required if your game
          * requires smooth animation. Because everyone's computer processes
          * instructions at different speeds we need a constant value that
@@ -58,25 +54,26 @@ export class Game {
          */
         
         let now = Date.now(),
-            dt = (now - Game.self.lastTime) / 1000.0;
+            dt = (now - GUIManager.self.lastTime) / 1000.0;
         // console.log(`dt`,dt);
         
         /* Call our update/render functions, pass along the time delta to
          * our update function since it may be used for smooth animation.
          */
-        Game.self.update(dt);
-        Game.self.render();
+        GUIManager.self.update(dt);
+        GUIManager.self.render();
 
         /* Set our lastTime variable which is used to determine the time delta
          * for the next time this function is called.
          */
-        Game.self.lastTime = now;
+        GUIManager.self.lastTime = now;
 
         /* Use the browser's requestAnimationFrame function to call this
          * function again as soon as the browser is able to draw another frame.
          */
-        window.requestAnimationFrame(Game.mainLoop);
+        window.requestAnimationFrame(GUIManager.mainLoop);
     }
+
 
     /* This function initially draws the "game level", it will then call
      * the renderEntities function. Remember, this function is called every
@@ -138,7 +135,7 @@ export class Game {
             enemy.render(dt);
         });
 
-        this.user.render();
+        this.player.render();
     }
 
     update(dt) {

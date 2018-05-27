@@ -1,13 +1,12 @@
 import { Keyboard, IKeyboardUser } from "../keyboard.js";
-import { Player } from "./player.js";
+import { Entity, IImageUrl } from "./entity.js";
 
 
-export class User extends Player implements IKeyboardUser {
-    
+export class Player extends Entity implements IKeyboardUser {
     private keyboard: Keyboard;
 
-    constructor() {
-        super();
+    constructor(imgUrl: IImageUrl) {
+        super({x: 0, y: 0}, imgUrl);
         this.keyboard = new Keyboard(this);
     }
     
