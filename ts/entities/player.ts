@@ -1,5 +1,5 @@
-import { Keyboard, IKeyboardUser } from "../keyboard.js";
 import { Entity, IImageUrl } from "./entity.js";
+import { IKeyboardUser, Keyboard } from "../core/keyboard.js";
 
 
 export class Player extends Entity implements IKeyboardUser {

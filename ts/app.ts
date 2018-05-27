@@ -1,4 +1,4 @@
-import { Game } from "./game.js";
+import { Game } from "./core/game.js";
 
 // compile it
 // tsc -t es6 --outDir ../js/dist app.ts

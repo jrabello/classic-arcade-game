@@ -23,4 +23,11 @@ export class Entity {
         this.imgUrl = imgUrl;
     }
 
+    getPosition(): IPoint {
+        return this.point;
+    }
+
+    getImgUrl(): IImageUrl {
+        return this.imgUrl;
+    }
 }

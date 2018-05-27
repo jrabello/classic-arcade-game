@@ -1,5 +1,4 @@
-import { Resources } from "../resources.js";
-import { TEnemyList, Enemy } from "../entities/enemy.js";
+import { Enemy } from "../entities/enemy.js";
 import { Player } from '../entities/player.js';
 import { GUIManager } from "./gui-manager.js";
 

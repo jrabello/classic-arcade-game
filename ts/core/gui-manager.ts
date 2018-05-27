@@ -1,5 +1,5 @@
-import { Resources } from "../resources.js";
 import { TEntityList } from "../entities/entity.js";
+import { Resources } from "./resources.js";
 
 export class GUIManager {
     
