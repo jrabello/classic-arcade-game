@@ -15,8 +15,12 @@ export class Game {
         // creates player and enemies
         const enemies = Array(10)
             .fill(0)
-            .map(_ => new Enemy({ url: Resources.getConstants().images.enemy }));
-        const player = new Player({ url: Resources.getConstants().images.player });
+            .map(_ => new Enemy({
+            url: Resources.getConstants().images.enemy
+        }));
+        const player = new Player({
+            url: Resources.getConstants().images.player
+        });
         this.guiManager = new GUIManager([
             player,
             ...enemies
@@ -26,5 +30,7 @@ export class Game {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.guiManager.run();
         });
+    }
+    reStart() {
     }
 }

@@ -44,5 +44,9 @@ Resources.constants = {
         grass: 'images/grass-block.png',
         enemy: 'images/enemy-bug.png',
         player: 'images/char-boy.png',
+    },
+    worldSize: {
+        width: 505,
+        height: 606,
     }
 };

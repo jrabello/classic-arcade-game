@@ -33,8 +33,8 @@ export class GUIManager {
         // init canvas
         this.canvas = document.createElement('canvas');
         this.renderCtx = this.canvas.getContext('2d');
-        this.canvas.width = 505;
-        this.canvas.height = 606;
+        this.canvas.width = Resources.getConstants().worldSize.width;
+        this.canvas.height = Resources.getConstants().worldSize.height;
         document.body.appendChild(this.canvas);
         // start main loop
         this.reset();
