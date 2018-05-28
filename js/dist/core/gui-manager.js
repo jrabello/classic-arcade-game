@@ -15,6 +15,13 @@ export class GUIManager {
         this.initCanvas();
         this.renderer = new GUIRenderer(this.canvas, entities);
     }
+    // init canvas
+    initCanvas() {
+        this.canvas = document.createElement('canvas');
+        this.canvas.width = Resources.getConstants().world.size.width;
+        this.canvas.height = Resources.getConstants().world.size.height;
+        document.body.appendChild(this.canvas);
+    }
     run() {
         return __awaiter(this, void 0, void 0, function* () {
             // init renderer
@@ -23,13 +30,6 @@ export class GUIManager {
             this.lastTime = Date.now();
             GUIManager.mainLoop();
         });
-    }
-    // init canvas
-    initCanvas() {
-        this.canvas = document.createElement('canvas');
-        this.canvas.width = Resources.getConstants().world.size.width;
-        this.canvas.height = Resources.getConstants().world.size.height;
-        document.body.appendChild(this.canvas);
     }
     static mainLoop() {
         /* Get our time delta information which is required if your game
