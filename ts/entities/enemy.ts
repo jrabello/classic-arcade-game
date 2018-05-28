@@ -1,9 +1,12 @@
-import { Entity, IImageUrl } from "./entity.js";
+import { Entity } from "./entity.js";
+import { Resources } from "../core/resources.js";
 
 export declare type TEnemyList = Enemy[];
 
 export class Enemy extends Entity {
-    constructor(imgUrl: IImageUrl) {
-        super({x: 0, y: 0}, imgUrl);
+    constructor() {
+        super(
+            { x: 0, y: 0 }, 
+            {url: Resources.getConstants().images.enemy});
     }
 }

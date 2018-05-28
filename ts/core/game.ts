@@ -4,7 +4,6 @@ import { GUIManager } from "./gui-manager.js";
 import { Resources } from "./resources.js";
 
 
-
 export class Game {
     guiManager: GUIManager;
 
@@ -28,8 +27,7 @@ export class Game {
         await this.guiManager.run();
     }
 
-    public reStart() {
+    public restart() {
     }
-
 
 }

@@ -7,27 +7,25 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 export class Resources {
-    constructor() {
-        this.resourceCache = {};
-    }
+    constructor() { }
     static getConstants() {
         return Resources.constants;
     }
-    getFromCache(url) {
-        return this.resourceCache[url];
+    static getFromCache(url) {
+        return Resources.resourceCache[url];
     }
-    fillResourceCache(images) {
+    static fillResourceCache(images) {
         return __awaiter(this, void 0, void 0, function* () {
             for (const imageUrl of images) {
                 const img = new Image();
                 img.src = imageUrl;
-                yield this.loadImage(img);
-                this.resourceCache[imageUrl] = img;
+                yield Resources.loadImage(img);
+                Resources.resourceCache[imageUrl] = img;
             }
             return;
         });
     }
-    loadImage(img) {
+    static loadImage(img) {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise((res, rej) => {
                 img.onload = () => {
@@ -37,6 +35,7 @@ export class Resources {
         });
     }
 }
+Resources.resourceCache = {};
 Resources.constants = {
     images: {
         stone: 'images/stone-block.png',
@@ -45,8 +44,14 @@ Resources.constants = {
         enemy: 'images/enemy-bug.png',
         player: 'images/char-boy.png',
     },
-    worldSize: {
-        width: 505,
-        height: 606,
+    world: {
+        moveOffset: {
+            x: 101,
+            y: 83,
+        },
+        size: {
+            width: 606,
+            height: 606,
+        },
     }
 };

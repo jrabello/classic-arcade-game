@@ -11,20 +11,28 @@ interface IImageList {
     player: string,
 }
 
+interface IWorld {
+    size: IWorldSize;
+    moveOffset: IMoveOffset;
+}
 interface IWorldSize {
     width: number;
     height: number;
+} 
+interface IMoveOffset {
+    x: number;
+    y: number;
 } 
 
 
 export interface IResourceConstants {
     images: IImageList;
-    worldSize: IWorldSize;
+    world: IWorld;
 }
 
 
 export class Resources {
-    private resourceCache: IResourceCache;
+    private static resourceCache: IResourceCache = {};
     private static constants: IResourceConstants = {
         images: {
             stone:  'images/stone-block.png',
@@ -33,35 +41,39 @@ export class Resources {
             enemy:  'images/enemy-bug.png',
             player: 'images/char-boy.png',
         },
-        worldSize: {
-            width: 505,
-            height: 606,
+        world: {
+            moveOffset: {
+                x: 101,
+                y: 83,
+            },
+            size: {
+                width: 606,
+                height: 606,
+            },
         } 
     }
 
-    constructor() {
-        this.resourceCache = {};
-    }
+    constructor() { }
 
     static getConstants(): IResourceConstants {
         return Resources.constants;
     }
 
-    public getFromCache(url: string): HTMLImageElement {
-        return this.resourceCache[url];
+    static getFromCache(url: string): HTMLImageElement {
+        return Resources.resourceCache[url];
     }
 
-    async fillResourceCache(images: Array<string>): Promise<void> {
+    static async fillResourceCache(images: Array<string>): Promise<void> {
         for (const imageUrl of images) {
             const img = new Image();
             img.src = imageUrl;
-            await this.loadImage(img);
-            this.resourceCache[imageUrl] = img;
+            await Resources.loadImage(img);
+            Resources.resourceCache[imageUrl] = img;
         }
         return;
     }
 
-    private async loadImage(img: HTMLImageElement): Promise<HTMLImageElement>{
+    static async loadImage(img: HTMLImageElement): Promise<HTMLImageElement>{
         return new Promise<HTMLImageElement>((res, rej) =>{
             img.onload = () => {
                 res(img);

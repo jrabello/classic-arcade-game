@@ -6,9 +6,6 @@ export class Entity {
     getPosition() {
         return this.point;
     }
-    setPosition(p) {
-        this.point = p;
-    }
     getImgUrl() {
         return this.imgUrl;
     }

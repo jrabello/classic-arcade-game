@@ -31,6 +31,6 @@ export class Game {
             yield this.guiManager.run();
         });
     }
-    reStart() {
+    restart() {
     }
 }

@@ -1,49 +1,34 @@
 import { TEntityList } from "../entities/entity.js";
 import { Resources } from "./resources.js";
-import { Entity } from '../entities/entity';
+import { GUIRenderer } from "./gui-renderer.js";
+
 
 export class GUIManager {
-    
     private static self: GUIManager;
-    resources: Resources;
     canvas: HTMLCanvasElement;
-    renderCtx: CanvasRenderingContext2D;
-    entities: TEntityList;
-    scene: string[];
+    renderer: GUIRenderer;
     lastTime: number;
 
     constructor(entities: TEntityList) {
+        // init canvas and run mainLoop
         GUIManager.self = this;
-        this.entities = entities;
-        this.resources = new Resources();
-        this.scene = [
-            Resources.getConstants().images.stone,
-            Resources.getConstants().images.water,
-            Resources.getConstants().images.grass
-        ];
+        this.initCanvas();
+        this.renderer = new GUIRenderer(this.canvas, entities);
+    }
+   
+    // init canvas
+    private initCanvas(): void {
+        this.canvas = document.createElement('canvas');
+        this.canvas.width = Resources.getConstants().world.size.width;
+        this.canvas.height = Resources.getConstants().world.size.height;
+        document.body.appendChild(this.canvas);
     }
 
     async run() {
-        // load images in cache( hashmaps FTW :D )
-        await this.resources.fillResourceCache([
-            ...this.scene,
-            ...this.entities.map(entity => entity.getImgUrl().url)
-        ]);
+        // init renderer
+        await this.renderer.init();
         
-        // initialize canvas and run mainLoop
-        this.initCanvas();
-    }
-    
-    private initCanvas(): any {
-        // init canvas
-        this.canvas = document.createElement('canvas');
-        this.renderCtx = this.canvas.getContext('2d');
-        this.canvas.width = Resources.getConstants().worldSize.width;
-        this.canvas.height = Resources.getConstants().worldSize.height;
-        document.body.appendChild(this.canvas);
-
         // start main loop
-        this.reset();
         this.lastTime = Date.now();
         GUIManager.mainLoop();
     }
@@ -61,8 +46,8 @@ export class GUIManager {
         /* Call our update/render functions, pass along the time delta to
          * our update function since it may be used for smooth animation.
          */
-        GUIManager.self.update(dt);
-        GUIManager.self.renderScene();
+        GUIManager.self.renderer.update(dt);
+        GUIManager.self.renderer.renderScene();
 
         /* Set our lastTime variable which is used to determine the time delta
          * for the next time this function is called.
@@ -76,83 +61,4 @@ export class GUIManager {
     }
 
 
-    /* This function initially draws the "game level", it will then call
-     * the renderEntities function. Remember, this function is called every
-     * game tick (or loop of the game engine) because that's how games work -
-     * they are flipbooks creating the illusion of animation but in reality
-     * they are just drawing the entire screen over and over.
-     */
-    private renderScene() {
-        /* This array holds the relative URL to the image used
-         * for that particular row of the game level.
-         */
-        let rowImages = [
-                Resources.getConstants().images.water,   // Top row is water
-                Resources.getConstants().images.stone,   // Row 1 of 3 of stone
-                Resources.getConstants().images.stone,   // Row 2 of 3 of stone
-                Resources.getConstants().images.stone,   // Row 3 of 3 of stone
-                Resources.getConstants().images.grass,   // Row 1 of 2 of grass
-                Resources.getConstants().images.grass,    // Row 2 of 2 of grass
-            ],
-            numRows = 6,
-            numCols = 5,
-            row, col;
-        
-        // Before drawing, clear existing canvas
-        this.renderCtx.clearRect(0,0, this.canvas.width, this.canvas.height)
-
-        /* Loop through the number of rows and columns we've defined above
-         * and, using the rowImages array, draw the correct image for that
-         * portion of the "grid"
-         */
-        for (row = 0; row < numRows; row++) {
-            for (col = 0; col < numCols; col++) {
-                /* The drawImage function of the canvas' context element
-                 * requires 3 parameters: the image to draw, the x coordinate
-                 * to start drawing and the y coordinate to start drawing.
-                 * We're using our Resources helpers to refer to our images
-                 * so that we get the benefits of caching these images, since
-                 * we're using them over and over.
-                 */
-                this.renderCtx.drawImage(
-                    this.resources.getFromCache(rowImages[row]), 
-                    col * 101, 
-                    row * 83);
-            }
-        }
-
-        this.renderEntities();
-    }
-
-    /* This function is called by the render function and is called on each game
-     * tick. Its purpose is to then call the render functions you have defined
-     * on your enemy and player entities within app.js
-     */
-    renderEntities(dt?: number) {
-        /* Loop through all of the objects within the allEnemies array and call
-         * the render function you have defined.
-         */
-        this.entities.forEach((entity: Entity) => {
-            // entity.render(dt);
-            this.renderCtx.drawImage(
-                this.resources.getFromCache(entity.getImgUrl().url), 
-                entity.getPosition().x,
-                entity.getPosition().y);
-        });
-
-        // this.player.render();
-    }
-
-    update(dt) {
-        this.renderEntities(dt);
-        // checkCollisions();
-    }
-
-    /* This function does nothing but it could have been a good place to
-    * handle game reset states - maybe a new game menu or a game over screen
-    * those sorts of things. It's only called once by the init() method.
-    */
-    reset() {
-        // noop
-    }
 }
