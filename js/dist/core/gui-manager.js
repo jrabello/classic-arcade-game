@@ -20,13 +20,11 @@ export class GUIManager {
     }
     run() {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log(`run!!!`);
             // load images in cache( hashmaps FTW :D )
             yield this.resources.fillResourceCache([
                 ...this.scene,
                 ...this.entities.map(entity => entity.getImgUrl().url)
             ]);
-            console.log(this.resources);
             // initialize canvas and run mainLoop
             this.initCanvas();
         });
@@ -113,6 +111,7 @@ export class GUIManager {
          */
         this.entities.forEach((entity) => {
             // entity.render(dt);
+            this.renderCtx.drawImage(this.resources.getFromCache(entity.getImgUrl().url), entity.getPosition().x, entity.getPosition().y);
         });
         // this.player.render();
     }

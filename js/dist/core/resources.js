@@ -18,7 +18,6 @@ export class Resources {
     }
     fillResourceCache(images) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log(images);
             for (const imageUrl of images) {
                 const img = new Image();
                 img.src = imageUrl;

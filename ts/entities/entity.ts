@@ -1,5 +1,5 @@
 
-interface IPoint {
+export interface IPoint {
     x: number;
     y: number;
 }
@@ -26,7 +26,11 @@ export class Entity {
     getPosition(): IPoint {
         return this.point;
     }
-
+    
+    setPosition(p: IPoint): void {
+        this.point = p;
+    }
+    
     getImgUrl(): IImageUrl {
         return this.imgUrl;
     }

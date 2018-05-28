@@ -1,7 +1,7 @@
 export interface IKeyboardUser {
     goRight(): void;
     goLeft(): void;
-    goTop(): void;
+    goUp(): void;
     goDown(): void;
 }
 
@@ -45,6 +45,15 @@ export class Keyboard {
         switch (Keyboard.self.getDirection(keyCode)) {
             case Key.down:
                 Keyboard.self.kbdUser.goDown();
+                break;
+            case Key.up:
+                Keyboard.self.kbdUser.goUp();
+                break;
+            case Key.right:
+                Keyboard.self.kbdUser.goRight();
+                break;
+            case Key.left:
+                Keyboard.self.kbdUser.goLeft();
                 break;
             default:
                 break;

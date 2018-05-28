@@ -13,11 +13,13 @@ import { Resources } from "./resources.js";
 export class Game {
     constructor() {
         // creates player and enemies
+        const enemies = Array(10)
+            .fill(0)
+            .map(_ => new Enemy({ url: Resources.getConstants().images.enemy }));
+        const player = new Player({ url: Resources.getConstants().images.player });
         this.guiManager = new GUIManager([
-            new Player({ url: Resources.getConstants().images.player }),
-            ...Array(10)
-                .fill(0)
-                .map(_ => new Enemy({ url: Resources.getConstants().images.enemy }))
+            player,
+            ...enemies
         ]);
     }
     start() {

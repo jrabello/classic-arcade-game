@@ -22,6 +22,15 @@ export class Keyboard {
             case Key.down:
                 Keyboard.self.kbdUser.goDown();
                 break;
+            case Key.up:
+                Keyboard.self.kbdUser.goUp();
+                break;
+            case Key.right:
+                Keyboard.self.kbdUser.goRight();
+                break;
+            case Key.left:
+                Keyboard.self.kbdUser.goLeft();
+                break;
             default:
                 break;
         }

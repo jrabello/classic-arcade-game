@@ -11,9 +11,17 @@ interface IImageList {
     player: string,
 }
 
+interface IWorldSize {
+    width: number;
+    height: number;
+} 
+
+
 export interface IResourceConstants {
     images: IImageList;
+    worldSize: IWorldSize;
 }
+
 
 export class Resources {
     private resourceCache: IResourceCache;
@@ -24,7 +32,11 @@ export class Resources {
             grass:  'images/grass-block.png',
             enemy:  'images/enemy-bug.png',
             player: 'images/char-boy.png',
-        }
+        },
+        worldSize: {
+            width: 505,
+            height: 606,
+        } 
     }
 
     constructor() {
@@ -40,8 +52,6 @@ export class Resources {
     }
 
     async fillResourceCache(images: Array<string>): Promise<void> {
-        console.log(images);
-        
         for (const imageUrl of images) {
             const img = new Image();
             img.src = imageUrl;

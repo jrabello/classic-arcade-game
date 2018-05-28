@@ -1,5 +1,6 @@
 import { TEntityList } from "../entities/entity.js";
 import { Resources } from "./resources.js";
+import { Entity } from '../entities/entity';
 
 export class GUIManager {
     
@@ -23,14 +24,11 @@ export class GUIManager {
     }
 
     async run() {
-        console.log(`run!!!`);
-        
         // load images in cache( hashmaps FTW :D )
         await this.resources.fillResourceCache([
             ...this.scene,
             ...this.entities.map(entity => entity.getImgUrl().url)
         ]);
-        console.log(this.resources);
         
         // initialize canvas and run mainLoop
         this.initCanvas();
@@ -40,8 +38,8 @@ export class GUIManager {
         // init canvas
         this.canvas = document.createElement('canvas');
         this.renderCtx = this.canvas.getContext('2d');
-        this.canvas.width = 505;
-        this.canvas.height = 606;
+        this.canvas.width = Resources.getConstants().worldSize.width;
+        this.canvas.height = Resources.getConstants().worldSize.height;
         document.body.appendChild(this.canvas);
 
         // start main loop
@@ -57,7 +55,6 @@ export class GUIManager {
          * would be the same for everyone (regardless of how fast their
          * computer is) - hurray time!
          */
-        
         let now = Date.now(),
             dt = (now - GUIManager.self.lastTime) / 1000.0;
         
@@ -135,8 +132,12 @@ export class GUIManager {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
-        this.entities.forEach((entity) => {
+        this.entities.forEach((entity: Entity) => {
             // entity.render(dt);
+            this.renderCtx.drawImage(
+                this.resources.getFromCache(entity.getImgUrl().url), 
+                entity.getPosition().x,
+                entity.getPosition().y);
         });
 
         // this.player.render();
