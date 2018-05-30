@@ -25,8 +25,7 @@ export class Player extends Entity implements IKeyboardUser {
             // we take advantage of knowing ahead of time that 
             // both enemies and player share same x position, so we can ignore 
             // any enemy outside y range of player
-            if(enemy.getY() == super.getY() && 
-            super.collidesWith(enemy)) {
+            if(enemy.getY() == super.getY() && super.collidesWith(enemy)) {
                 return true;
             }
         }
