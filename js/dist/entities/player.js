@@ -7,7 +7,7 @@ export class Player extends Entity {
         const initialX = Utils.getRandomIntInclusive(2, 3) *
             Resources.getConstants().world.moveOffset.x;
         const initialY = 5 * Resources.getConstants().world.moveOffset.y;
-        super({ dx: initialX, dy: initialX, sx: 17, sy: 63, sw: 68, sh: 77 }, { url: Resources.getConstants().images.player });
+        super({ dx: initialX, dy: initialY, sx: 17, sy: 63, sw: 68, sh: 77 }, { url: Resources.getConstants().images.player });
         this.keyboard = new Keyboard(this);
     }
     collidesWithSome(enemies) {

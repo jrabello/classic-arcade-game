@@ -21,7 +21,6 @@ export interface IImageUrl {
 export declare type TEntityList = Entity[];   
 
 export abstract class Entity {
-   
     private point: IPosition;
     private imgUrl: IImageUrl;
 
@@ -29,9 +28,21 @@ export abstract class Entity {
         this.point = point;
         this.imgUrl = imgUrl;
     }
-
-    public abstract render(dt?: number): void;
     
+    // forces child classes to implement this method to be rendered
+    abstract render(dt?: number): void;
+    
+    // checks if current object collides with anoher one
+    collidesWith(entity: Entity): boolean {
+        if ((this.point.dx + this.point.sx) < (entity.getX() + entity.getSX() + entity.getWidth()) &&
+            (this.point.dx + this.point.sx + this.point.sw) > (entity.getX() + entity.getSX())     &&
+            (this.point.dy+this.point.sy) < (entity.getY() + entity.getSY() + entity.getHeight())  &&
+            (this.point.sh + this.point.dy + this.point.sy) > (entity.getY() + entity.getSY()))
+            return true;
+        else
+            return false;
+    }
+
     incrementX(delta: number): void {
         this.point.dx += delta;
     }
@@ -57,10 +68,19 @@ export abstract class Entity {
     getY(): number {
         return this.point.dy;
     }
+    getSX(): number {
+        return this.point.sx;
+    }
+    getSY(): number {
+        return this.point.sy;
+    }
 
-    // getPosition(): IPosition {
-    //     return this.point;
-    // }
+    getWidth(): number {
+        return this.point.sw;
+    }
+    getHeight(): number {
+        return this.point.sh;
+    }
     
     getImgUrl(): IImageUrl {
         return this.imgUrl;

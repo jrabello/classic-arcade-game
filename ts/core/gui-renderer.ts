@@ -92,6 +92,13 @@ export class GUIRenderer {
                 171
             );
 
+            this.renderCtx.strokeRect(
+                entity.point.dx+entity.point.sx,
+                entity.point.dy+entity.point.sy,
+                entity.point.sw,
+                entity.point.sh,
+            );
+
             // this.renderCtx.drawImage(
             //     Resources.getFromCache(entity.getImgUrl().url), 
             //     entity.getPosition().sx,

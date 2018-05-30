@@ -15,7 +15,7 @@ export class Player extends Entity implements IKeyboardUser {
             Resources.getConstants().world.moveOffset.x;
         const initialY = 5 * Resources.getConstants().world.moveOffset.y;
         super(
-            { dx: initialX, dy: initialX , sx: 17, sy: 63, sw: 68, sh: 77}, 
+            { dx: initialX, dy: initialY , sx: 17, sy: 63, sw: 68, sh: 77}, 
             { url: Resources.getConstants().images.player });
         this.keyboard = new Keyboard(this);
     }
@@ -25,7 +25,8 @@ export class Player extends Entity implements IKeyboardUser {
             // we take advantage of knowing ahead of time that 
             // both enemies and player share same x position, so we can ignore 
             // any enemy outside y range of player
-            if(enemy.getY() == super.getY()) {
+            if(enemy.getY() == super.getY() && 
+            super.collidesWith(enemy)) {
                 return true;
             }
         }
@@ -61,7 +62,7 @@ export class Player extends Entity implements IKeyboardUser {
             this.decrementY(Resources.getConstants().world.moveOffset.y);
     }
 
-    // player does not need to render because
+    // player does not need to render because keyboard controls its coordinates
     public render(dt?: number): void { }
 
 }
