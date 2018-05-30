@@ -14,7 +14,7 @@ export interface IImageUrl {
 
 export declare type TEntityList = Entity[];   
 
-export class Entity {
+export abstract class Entity {
     point: IPoint;
     imgUrl: IImageUrl;
 
@@ -23,6 +23,8 @@ export class Entity {
         this.imgUrl = imgUrl;
     }
 
+    public abstract render(dt?: number): void;
+    
     getPosition(): IPoint {
         return this.point;
     }

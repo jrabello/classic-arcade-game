@@ -12,7 +12,7 @@ import { GUIManager } from "./gui-manager.js";
 export class Game {
     constructor() {
         // creates player and enemies
-        const enemies = Array(10)
+        const enemies = Array(6)
             .fill(0)
             .map(_ => new Enemy());
         const player = new Player();

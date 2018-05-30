@@ -10,6 +10,10 @@ export class GUIRenderer {
         this.entities = entities;
     }
 
+    async init() {
+        await this.buildResourceCache();
+    }
+
     private async buildResourceCache() {
         // load images in cache( hashmaps FTW :D )
         await Resources.fillResourceCache([
@@ -18,10 +22,6 @@ export class GUIRenderer {
             Resources.getConstants().images.grass,
             ...this.entities.map(entity => entity.getImgUrl().url)
         ]);
-    }
-
-    async init() {
-        await this.buildResourceCache();
     }
 
     /* This function initially draws the "game level", it will then call
@@ -39,12 +39,14 @@ export class GUIRenderer {
                 Resources.getConstants().images.stone,   // Row 1 of 3 of stone
                 Resources.getConstants().images.stone,   // Row 2 of 3 of stone
                 Resources.getConstants().images.stone,   // Row 3 of 3 of stone
-                Resources.getConstants().images.grass,   // Row 1 of 2 of grass
+                Resources.getConstants().images.stone,   // Row 1 of 2 of grass
                 Resources.getConstants().images.grass,    // Row 2 of 2 of grass
                 Resources.getConstants().images.grass,    // Row 2 of 2 of grass
             ],
-            numRows: number = Resources.getConstants().world.size.width/Resources.getConstants().world.moveOffset.x,
-            numCols: number = Resources.getConstants().world.size.width/Resources.getConstants().world.moveOffset.x;
+            numRows: number = 
+                Resources.getConstants().world.size.width/Resources.getConstants().world.moveOffset.x,
+            numCols: number = 
+                Resources.getConstants().world.size.width/Resources.getConstants().world.moveOffset.x;
         
         // Before drawing, clear existing canvas
         this.renderCtx.clearRect(0,0, 
@@ -83,7 +85,7 @@ export class GUIRenderer {
          * the render function you have defined.
          */
         this.entities.forEach((entity: Entity) => {
-            // entity.render(dt);
+            entity.render(dt);
             this.renderCtx.drawImage(
                 Resources.getFromCache(entity.getImgUrl().url), 
                 entity.getPosition().x,

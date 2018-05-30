@@ -9,7 +9,7 @@ export class Player extends Entity implements IKeyboardUser {
     private keyboard: Keyboard;
 
     constructor() {
-        const initialX =    Utils.getRandomIntInclusive(2, 3) * 
+        const initialX = Utils.getRandomIntInclusive(2, 3) * 
             Resources.getConstants().world.moveOffset.x;
         const initialY = 5 * Resources.getConstants().world.moveOffset.y;
         super(
@@ -46,5 +46,7 @@ export class Player extends Entity implements IKeyboardUser {
         if(this.getPosition().y - Resources.getConstants().world.moveOffset.y >= 0)
             this.getPosition().y -= Resources.getConstants().world.moveOffset.y;
     }
+
+    public render(dt?: number): void { }
 
 }

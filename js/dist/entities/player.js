@@ -36,4 +36,5 @@ export class Player extends Entity {
         if (this.getPosition().y - Resources.getConstants().world.moveOffset.y >= 0)
             this.getPosition().y -= Resources.getConstants().world.moveOffset.y;
     }
+    render(dt) { }
 }

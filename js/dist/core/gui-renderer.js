@@ -12,6 +12,11 @@ export class GUIRenderer {
         this.renderCtx = canvas.getContext('2d');
         this.entities = entities;
     }
+    init() {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.buildResourceCache();
+        });
+    }
     buildResourceCache() {
         return __awaiter(this, void 0, void 0, function* () {
             // load images in cache( hashmaps FTW :D )
@@ -21,11 +26,6 @@ export class GUIRenderer {
                 Resources.getConstants().images.grass,
                 ...this.entities.map(entity => entity.getImgUrl().url)
             ]);
-        });
-    }
-    init() {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield this.buildResourceCache();
         });
     }
     /* This function initially draws the "game level", it will then call
@@ -43,7 +43,7 @@ export class GUIRenderer {
             Resources.getConstants().images.stone,
             Resources.getConstants().images.stone,
             Resources.getConstants().images.stone,
-            Resources.getConstants().images.grass,
+            Resources.getConstants().images.stone,
             Resources.getConstants().images.grass,
             Resources.getConstants().images.grass,
         ], numRows = Resources.getConstants().world.size.width / Resources.getConstants().world.moveOffset.x, numCols = Resources.getConstants().world.size.width / Resources.getConstants().world.moveOffset.x;
@@ -76,7 +76,7 @@ export class GUIRenderer {
          * the render function you have defined.
          */
         this.entities.forEach((entity) => {
-            // entity.render(dt);
+            entity.render(dt);
             this.renderCtx.drawImage(Resources.getFromCache(entity.getImgUrl().url), entity.getPosition().x, entity.getPosition().y);
         });
     }
