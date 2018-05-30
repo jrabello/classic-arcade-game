@@ -10,12 +10,12 @@ export class Player extends Entity {
         super({ dx: initialX, dy: initialY, sx: 17, sy: 63, sw: 68, sh: 77 }, { url: Resources.getConstants().images.player });
         this.keyboard = new Keyboard(this);
     }
-    collidesWithSome(enemies) {
+    collidesWithAny(enemies) {
         for (const enemy of enemies) {
             // we take advantage of knowing ahead of time that 
             // both enemies and player share same x position, so we can ignore 
             // any enemy outside y range of player
-            if (enemy.getY() == super.getY()) {
+            if (enemy.getY() == super.getY() && super.collidesWith(enemy)) {
                 return true;
             }
         }
@@ -47,6 +47,6 @@ export class Player extends Entity {
         if (this.getY() - Resources.getConstants().world.moveOffset.y >= 0)
             this.decrementY(Resources.getConstants().world.moveOffset.y);
     }
-    // player does not need to render because
+    // player does not need to render because keyboard controls its coordinates
     render(dt) { }
 }

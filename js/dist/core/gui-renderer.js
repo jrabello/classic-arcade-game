@@ -57,34 +57,22 @@ export class GUIRenderer {
          * the render function you have defined2.
          */
         this.entities.forEach((entity) => {
+            // changes entity position if needed
             entity.render(dt);
             // draws entity
             this.renderCtx.drawImage(Resources.getFromCache(entity.getImgUrl().url), entity.getX(), entity.getY());
-            this.renderCtx.strokeRect(entity.getX(), entity.getY(), 101, 171);
-            this.renderCtx.strokeRect(entity.point.dx + entity.point.sx, entity.point.dy + entity.point.sy, entity.point.sw, entity.point.sh);
-            // this.renderCtx.drawImage(
-            //     Resources.getFromCache(entity.getImgUrl().url), 
-            //     entity.getPosition().sx,
-            //     entity.getPosition().sy,
-            //     entity.getPosition().sw,
-            //     entity.getPosition().sh,
-            //     entity.getPosition().dx,
-            //     entity.getPosition().dy,
-            //     entity.getPosition().sw,
-            //     entity.getPosition().sh,
+            // this.renderCtx.strokeRect(
+            //     entity.getX(),
+            //     entity.getY(),
+            //     101,
+            //     171
             // );
-            // player dimentions
             // this.renderCtx.strokeRect(
-            //     entity.getPosition().x+17,
-            //     entity.getPosition().y+63,
-            //         68,
-            //         77);
-            // enemy position
-            // this.renderCtx.strokeRect(
-            //     entity.getPosition().x+1,
-            //     entity.getPosition().y+77,
-            //     98,
-            //     67);
+            //     entity.getX()+entity.getSX(),
+            //     entity.getY()+entity.getSY(),
+            //     entity.getWidth(),
+            //     entity.getHeight(),
+            // );
         });
     }
     update(dt) {
@@ -93,14 +81,10 @@ export class GUIRenderer {
     }
     checkColisions() {
         const [player, ...enemies] = this.entities;
-        if (player.collidesWithSome(enemies)) {
+        if (player.collidesWithAny(enemies)) {
             console.log(`collision!!!!!!!!`);
         }
     }
-    /* This function does nothing but it could have been a good place to
-    * handle game reset states - maybe a new game menu or a game over screen
-    * those sorts of things. It's only called once by the init() method.
-    */
     reset() {
         // noop
     }

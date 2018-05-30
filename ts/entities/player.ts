@@ -20,7 +20,7 @@ export class Player extends Entity implements IKeyboardUser {
         this.keyboard = new Keyboard(this);
     }
 
-    collidesWithSome(enemies: TEnemyList): boolean {
+    collidesWithAny(enemies: TEnemyList): boolean {
         for (const enemy of enemies) {
             // we take advantage of knowing ahead of time that 
             // both enemies and player share same x position, so we can ignore 
