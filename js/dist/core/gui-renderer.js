@@ -35,26 +35,14 @@ export class GUIRenderer {
      * they are just drawing the entire screen over and over.
      */
     renderScene() {
-        /* This array holds the relative URL to the image used
-         * for that particular row of the game level.
-         */
-        const rowImages = [
-            Resources.getConstants().images.water,
-            Resources.getConstants().images.stone,
-            Resources.getConstants().images.stone,
-            Resources.getConstants().images.stone,
-            Resources.getConstants().images.stone,
-            Resources.getConstants().images.grass,
-            Resources.getConstants().images.grass,
-        ], numRows = Resources.getConstants().world.size.width / Resources.getConstants().world.moveOffset.x, numCols = Resources.getConstants().world.size.width / Resources.getConstants().world.moveOffset.x;
         // Before drawing, clear existing canvas
         this.renderCtx.clearRect(0, 0, Resources.getConstants().world.size.width, Resources.getConstants().world.size.height);
         /* Loop through the number of rows and columns we've defined above
          * and, using the rowImages array, draw the correct image for that
          * portion of the "grid"
          */
-        for (let row = 0; row < numRows; row++) {
-            for (let col = 0; col < numCols; col++) {
+        for (let row = 0; row < GUIRenderer.numRows; row++) {
+            for (let col = 0; col < GUIRenderer.numCols; col++) {
                 /* The drawImage function of the canvas' context element
                  * requires 3 parameters: the image to draw, the x coordinate
                  * to start drawing and the y coordinate to start drawing.
@@ -62,7 +50,7 @@ export class GUIRenderer {
                  * so that we get the benefits of caching these images, since
                  * we're using them over and over.
                  */
-                this.renderCtx.drawImage(Resources.getFromCache(rowImages[row]), col * Resources.getConstants().world.moveOffset.x, row * Resources.getConstants().world.moveOffset.y);
+                this.renderCtx.drawImage(Resources.getFromCache(GUIRenderer.rowImages[row]), col * Resources.getConstants().world.moveOffset.x, row * Resources.getConstants().world.moveOffset.y);
             }
         }
         this.renderEntities();
@@ -77,12 +65,43 @@ export class GUIRenderer {
          */
         this.entities.forEach((entity) => {
             entity.render(dt);
-            this.renderCtx.drawImage(Resources.getFromCache(entity.getImgUrl().url), entity.getPosition().x, entity.getPosition().y);
+            // draws entity
+            this.renderCtx.drawImage(Resources.getFromCache(entity.getImgUrl().url), entity.getX(), entity.getY());
+            this.renderCtx.strokeRect(entity.getX(), entity.getY(), 101, 171);
+            // this.renderCtx.drawImage(
+            //     Resources.getFromCache(entity.getImgUrl().url), 
+            //     entity.getPosition().sx,
+            //     entity.getPosition().sy,
+            //     entity.getPosition().sw,
+            //     entity.getPosition().sh,
+            //     entity.getPosition().dx,
+            //     entity.getPosition().dy,
+            //     entity.getPosition().sw,
+            //     entity.getPosition().sh,
+            // );
+            // player dimentions
+            // this.renderCtx.strokeRect(
+            //     entity.getPosition().x+17,
+            //     entity.getPosition().y+63,
+            //         68,
+            //         77);
+            // enemy position
+            // this.renderCtx.strokeRect(
+            //     entity.getPosition().x+1,
+            //     entity.getPosition().y+77,
+            //     98,
+            //     67);
         });
     }
     update(dt) {
         this.renderEntities(dt);
-        // checkCollisions();
+        this.checkColisions();
+    }
+    checkColisions() {
+        const [player, ...enemies] = this.entities;
+        if (player.collidesWithSome(enemies)) {
+            console.log(`collision!!!!!!!!`);
+        }
     }
     /* This function does nothing but it could have been a good place to
     * handle game reset states - maybe a new game menu or a game over screen
@@ -92,3 +111,14 @@ export class GUIRenderer {
         // noop
     }
 }
+GUIRenderer.rowImages = [
+    Resources.getConstants().images.water,
+    Resources.getConstants().images.stone,
+    Resources.getConstants().images.stone,
+    Resources.getConstants().images.stone,
+    Resources.getConstants().images.stone,
+    Resources.getConstants().images.grass,
+    Resources.getConstants().images.grass,
+];
+GUIRenderer.numRows = Resources.getConstants().world.size.width / Resources.getConstants().world.moveOffset.x;
+GUIRenderer.numCols = Resources.getConstants().world.size.width / Resources.getConstants().world.moveOffset.x;
