@@ -8,10 +8,10 @@ export class Game {
 
     constructor() {
         // creates player and enemies
+        const player = new Player();
         const enemies = Array(6)
                         .fill(0)
                         .map(_ => new Enemy());
-        const player = new Player();
         this.guiManager = new GUIManager([
             player,
             ...enemies
