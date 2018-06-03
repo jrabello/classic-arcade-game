@@ -49,7 +49,7 @@ export class Entity {
     getHeight() {
         return this.point.sh;
     }
-    getImgUrl() {
-        return this.imgUrl;
+    getImgPath() {
+        return this.imgUrl.path;
     }
 }

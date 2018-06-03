@@ -8,6 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import { Resources } from "./resources.js";
 import { GUIRenderer } from "./gui-renderer.js";
+import { Game, GameState } from "./game.js";
 export class GUIManager {
     constructor(entities) {
         // init canvas and run mainLoop
@@ -26,7 +27,7 @@ export class GUIManager {
         return __awaiter(this, void 0, void 0, function* () {
             // init renderer
             yield this.renderer.init();
-            // start main loop
+            // starts main loop
             this.lastTime = Date.now();
             GUIManager.mainLoop();
         });
@@ -42,8 +43,10 @@ export class GUIManager {
         /* Call our update/render functions, pass along the time delta to
          * our update function since it may be used for smooth animation.
          */
-        GUIManager.self.renderer.update(dt);
-        GUIManager.self.renderer.renderScene();
+        if (Game.getState() === GameState.running) {
+            GUIManager.self.renderer.update(dt);
+            GUIManager.self.renderer.renderScene();
+        }
         /* Set our lastTime variable which is used to determine the time delta
          * for the next time this function is called.
          */

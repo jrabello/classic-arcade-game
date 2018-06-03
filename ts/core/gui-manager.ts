@@ -1,13 +1,14 @@
 import { TEntityList } from "../entities/entity.js";
 import { Resources } from "./resources.js";
 import { GUIRenderer } from "./gui-renderer.js";
+import { Game, GameState } from "./game.js";
 
 
 export class GUIManager {
-    private static self: GUIManager;
-    canvas: HTMLCanvasElement;
-    renderer: GUIRenderer;
     lastTime: number;
+    renderer: GUIRenderer;
+    canvas: HTMLCanvasElement;
+    private static self: GUIManager;
 
     constructor(entities: TEntityList) {
         // init canvas and run mainLoop
@@ -28,7 +29,7 @@ export class GUIManager {
         // init renderer
         await this.renderer.init();
         
-        // start main loop
+        // starts main loop
         this.lastTime = Date.now();
         GUIManager.mainLoop();
     }
@@ -46,8 +47,10 @@ export class GUIManager {
         /* Call our update/render functions, pass along the time delta to
          * our update function since it may be used for smooth animation.
          */
-        GUIManager.self.renderer.update(dt);
-        GUIManager.self.renderer.renderScene();
+        if (Game.getState() === GameState.running) {
+            GUIManager.self.renderer.update(dt);
+            GUIManager.self.renderer.renderScene();
+        }
 
         /* Set our lastTime variable which is used to determine the time delta
          * for the next time this function is called.

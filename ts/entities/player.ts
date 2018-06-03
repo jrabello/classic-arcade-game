@@ -6,13 +6,12 @@ import { TEnemyList } from "./enemy.js";
 
 
 export class Player extends Entity implements IKeyboardUser {
-    
     private keyboard: Keyboard;
 
     constructor() {
         super(
             { dx: 0, dy: 0 , sx: 17, sy: 63, sw: 68, sh: 77}, 
-            { url: Resources.getConstants().images.player });
+            { path: Resources.getConstants().images.player });
         this.reset();
         this.keyboard = new Keyboard(this);
     }
@@ -29,21 +28,16 @@ export class Player extends Entity implements IKeyboardUser {
         return false;
     }
     
-    // IKeyboardUser compliance
-    private canGoRight(): boolean {
-        return (this.getX() + Resources.getConstants().world.moveOffset.x) <
-                Resources.getConstants().world.size.width
+    collidesWithWater(): boolean {
+        return super.getY() === 0;
     }
+
+    // IKeyboardUser compliance
     goRight(): void {
         if(this.canGoRight())
             this.incrementX(Resources.getConstants().world.moveOffset.x);
     }
-    
-    private canGoDown(): boolean {
-        return this.getY() + Resources.getConstants().world.moveOffset.y <
-            Resources.getConstants().world.size.height - 
-            (Resources.getConstants().world.moveOffset.y * 2)
-    }
+
     goDown(): void {
         if(this.canGoDown())
             this.incrementY(Resources.getConstants().world.moveOffset.y);
@@ -53,20 +47,33 @@ export class Player extends Entity implements IKeyboardUser {
         if(this.getX() - Resources.getConstants().world.moveOffset.x >= 0)
             this.decrementX(Resources.getConstants().world.moveOffset.x);
     }
+
     goUp(): void {
         if(this.getY() - Resources.getConstants().world.moveOffset.y >= 0)
             this.decrementY(Resources.getConstants().world.moveOffset.y);
     }
 
-    // player does not need to render because keyboard controls its coordinates
-    public render(dt?: number): void { }
+    // player does not need to implement render method 
+    // because keyboard controls its movements
+    render(dt?: number): void { }
 
-    public reset(): void {
+    reset(): void {
         const initialX = 
-        Utils.getRandomIntInclusive(0, 1) * 
-        Resources.getConstants().world.moveOffset.x;
+            Utils.getRandomIntInclusive(0, 1) * 
+            Resources.getConstants().world.moveOffset.x;
         const initialY = 5 * Resources.getConstants().world.moveOffset.y;
         super.setX(initialX);
         super.setY(initialY);
+    }
+
+    private canGoRight(): boolean {
+        return (this.getX() + Resources.getConstants().world.moveOffset.x) <
+                Resources.getConstants().world.size.width
+    }
+  
+    private canGoDown(): boolean {
+        return this.getY() + Resources.getConstants().world.moveOffset.y <
+            Resources.getConstants().world.size.height - 
+            (Resources.getConstants().world.moveOffset.y * 2)
     }
 }

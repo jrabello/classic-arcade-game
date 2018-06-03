@@ -8,7 +8,7 @@ import { Game } from "./core/game.js";
  * It's responsible for building necessary data structures and then start the game
  */
 function onInit(): void {
-    const game = new Game();
+    var game = new Game();
     game.start();
 }
 

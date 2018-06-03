@@ -10,12 +10,8 @@ export interface IPosition {
     sh: number;
 }
 
-export interface IRenderable {
-    render(dt?: number);
-}
-
 export interface IImageUrl {
-    url: string;
+    path: string;
 }
 
 export declare type TEntityList = Entity[];   
@@ -29,9 +25,9 @@ export abstract class Entity {
         this.imgUrl = imgUrl;
     }
     
-    // forces child classes to implement this method to be rendered
-    abstract render(dt?: number): void;
+    // forces child classes to implement this methods
     abstract reset(): void;
+    abstract render(dt?: number): void;
     
     // checks if current object collides with anoher one
     collidesWith(entity: Entity): boolean {
@@ -83,7 +79,7 @@ export abstract class Entity {
         return this.point.sh;
     }
     
-    getImgUrl(): IImageUrl {
-        return this.imgUrl;
+    getImgPath(): string {
+        return this.imgUrl.path;
     }
 }

@@ -17,22 +17,42 @@ export var GameState;
 })(GameState || (GameState = {}));
 export class Game {
     constructor() {
+        Game.self = this;
         // creates player and enemies
         const player = new Player();
         const enemies = Array(10)
             .fill(0)
             .map(_ => new Enemy());
-        this.guiManager = new GUIManager([
+        this.entities = [
             player,
             ...enemies
-        ]);
+        ];
+        // init and run gui manager
+        this.guiManager = new GUIManager(this.entities);
+        this.guiManager.run();
     }
     start() {
         return __awaiter(this, void 0, void 0, function* () {
-            Game.state = GameState.running;
-            yield this.guiManager.run();
+            Game.self.state = GameState.running;
         });
     }
     static restart() {
+        // hide modal
+        document.getElementById('modal').style.display = 'none';
+        // reset entities
+        Game.self.entities.forEach((entity) => entity.reset());
+        Game.self.state = GameState.running;
+    }
+    static getState() {
+        return Game.self.state;
+    }
+    static setState(state) {
+        return Game.self.state = state;
     }
 }
+function onCloseBtnClicked() {
+    Game.restart();
+}
+document.getElementById('close-btn').addEventListener('click', () => {
+    onCloseBtnClicked();
+});

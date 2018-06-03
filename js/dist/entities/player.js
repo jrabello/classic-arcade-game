@@ -4,7 +4,7 @@ import { Resources } from "../core/resources.js";
 import { Utils } from "../core/utils.js";
 export class Player extends Entity {
     constructor() {
-        super({ dx: 0, dy: 0, sx: 17, sy: 63, sw: 68, sh: 77 }, { url: Resources.getConstants().images.player });
+        super({ dx: 0, dy: 0, sx: 17, sy: 63, sw: 68, sh: 77 }, { path: Resources.getConstants().images.player });
         this.reset();
         this.keyboard = new Keyboard(this);
     }
@@ -19,19 +19,13 @@ export class Player extends Entity {
         }
         return false;
     }
-    // IKeyboardUser compliance
-    canGoRight() {
-        return (this.getX() + Resources.getConstants().world.moveOffset.x) <
-            Resources.getConstants().world.size.width;
+    collidesWithWater() {
+        return super.getY() === 0;
     }
+    // IKeyboardUser compliance
     goRight() {
         if (this.canGoRight())
             this.incrementX(Resources.getConstants().world.moveOffset.x);
-    }
-    canGoDown() {
-        return this.getY() + Resources.getConstants().world.moveOffset.y <
-            Resources.getConstants().world.size.height -
-                (Resources.getConstants().world.moveOffset.y * 2);
     }
     goDown() {
         if (this.canGoDown())
@@ -45,7 +39,8 @@ export class Player extends Entity {
         if (this.getY() - Resources.getConstants().world.moveOffset.y >= 0)
             this.decrementY(Resources.getConstants().world.moveOffset.y);
     }
-    // player does not need to render because keyboard controls its coordinates
+    // player does not need to implement render method 
+    // because keyboard controls its movements
     render(dt) { }
     reset() {
         const initialX = Utils.getRandomIntInclusive(0, 1) *
@@ -53,5 +48,14 @@ export class Player extends Entity {
         const initialY = 5 * Resources.getConstants().world.moveOffset.y;
         super.setX(initialX);
         super.setY(initialY);
+    }
+    canGoRight() {
+        return (this.getX() + Resources.getConstants().world.moveOffset.x) <
+            Resources.getConstants().world.size.width;
+    }
+    canGoDown() {
+        return this.getY() + Resources.getConstants().world.moveOffset.y <
+            Resources.getConstants().world.size.height -
+                (Resources.getConstants().world.moveOffset.y * 2);
     }
 }

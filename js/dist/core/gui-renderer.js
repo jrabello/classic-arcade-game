@@ -25,7 +25,7 @@ export class GUIRenderer {
                 Resources.getConstants().images.stone,
                 Resources.getConstants().images.water,
                 Resources.getConstants().images.grass,
-                ...[this.player, ...this.enemies].map(entity => entity.getImgUrl().url)
+                ...[this.player, ...this.enemies].map(entity => entity.getImgPath())
             ]);
         });
     }
@@ -61,38 +61,29 @@ export class GUIRenderer {
             // changes entity position if needed
             entity.render(dt);
             // draws entity
-            this.renderCtx.drawImage(Resources.getFromCache(entity.getImgUrl().url), entity.getX(), entity.getY());
-            // this.renderCtx.strokeRect(
-            //     entity.getX(),
-            //     entity.getY(),
-            //     101,
-            //     171
-            // );
-            // this.renderCtx.strokeRect(
-            //     entity.getX()+entity.getSX(),
-            //     entity.getY()+entity.getSY(),
-            //     entity.getWidth(),
-            //     entity.getHeight(),
-            // );
+            this.renderCtx.drawImage(Resources.getFromCache(entity.getImgPath()), entity.getX(), entity.getY());
+            this.renderCtx.strokeRect(entity.getX(), entity.getY(), 101, 171);
+            this.renderCtx.strokeRect(entity.getX() + entity.getSX(), entity.getY() + entity.getSY(), entity.getWidth(), entity.getHeight());
         });
     }
     update(dt) {
-        if (Game.state === GameState.running) {
-            this.renderEntities(dt);
-            this.checkColisions();
-        }
+        this.renderEntities(dt);
+        this.checkColisions();
     }
     checkColisions() {
-        if (this.player.collidesWithAny(this.enemies)) {
-            // show game over
-            document.querySelector('.modal').style.display = 'flex';
-            // reset game
-            [this.player, ...this.enemies].forEach((entity) => entity.reset());
-            Game.state = GameState.paused;
+        let collidedMsg = '';
+        if (this.player.collidesWithWater()) {
+            collidedMsg = `You win!!!!`;
         }
-    }
-    reset() {
-        // noop
+        else if (this.player.collidesWithAny(this.enemies)) {
+            collidedMsg = `You loose!!!!`;
+        }
+        if (collidedMsg.length !== 0) {
+            // show colision game over modal!!!
+            document.getElementById('modal-text').innerText = collidedMsg;
+            document.getElementById('modal').style.display = 'flex';
+            Game.setState(GameState.paused);
+        }
     }
 }
 GUIRenderer.rowImages = [

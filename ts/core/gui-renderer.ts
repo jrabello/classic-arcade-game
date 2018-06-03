@@ -5,7 +5,6 @@ import { Player } from "../entities/player.js";
 import { GameState, Game } from "./game.js";
 
 
-
 export class GUIRenderer {
     player: Player;
     enemies: TEnemyList;
@@ -40,7 +39,7 @@ export class GUIRenderer {
             Resources.getConstants().images.stone,
             Resources.getConstants().images.water,
             Resources.getConstants().images.grass,
-            ...[this.player, ...this.enemies].map(entity => entity.getImgUrl().url)
+            ...[this.player, ...this.enemies].map(entity => entity.getImgPath())
         ]);
     }
 
@@ -86,47 +85,48 @@ export class GUIRenderer {
 
             // draws entity
             this.renderCtx.drawImage(
-                Resources.getFromCache(entity.getImgUrl().url), 
+                Resources.getFromCache(entity.getImgPath()), 
                 entity.getX(),
                 entity.getY(),
             );
 
-            // this.renderCtx.strokeRect(
-            //     entity.getX(),
-            //     entity.getY(),
-            //     101,
-            //     171
-            // );
+            this.renderCtx.strokeRect(
+                entity.getX(),
+                entity.getY(),
+                101,
+                171
+            );
 
-            // this.renderCtx.strokeRect(
-            //     entity.getX()+entity.getSX(),
-            //     entity.getY()+entity.getSY(),
-            //     entity.getWidth(),
-            //     entity.getHeight(),
-            // );
+            this.renderCtx.strokeRect(
+                entity.getX()+entity.getSX(),
+                entity.getY()+entity.getSY(),
+                entity.getWidth(),
+                entity.getHeight(),
+            );
 
         });
     }
 
     update(dt): void {
-        if (Game.state === GameState.running) {
-            this.renderEntities(dt);
-            this.checkColisions();
-        }
+        this.renderEntities(dt);
+        this.checkColisions();
     }
 
     checkColisions(): void {
-        if (this.player.collidesWithAny(this.enemies)) {
-            // show game over
-            (<HTMLElement>document.querySelector('.modal')).style.display = 'flex';
-            
-            // reset game
-            [this.player, ...this.enemies].forEach((entity: Entity) => entity.reset());
-            Game.state = GameState.paused;
+        let collidedMsg: string = '';
+
+        if (this.player.collidesWithWater()) {
+            collidedMsg = `You win!!!!`;
+        } else if (this.player.collidesWithAny(this.enemies)) {
+            collidedMsg = `You loose!!!!`;
+        }
+
+        if (collidedMsg.length !== 0) {
+            // show colision game over modal!!!
+            (<HTMLElement>document.getElementById('modal-text')).innerText = collidedMsg;
+            (<HTMLElement>document.getElementById('modal')).style.display = 'flex';
+            Game.setState(GameState.paused);
         }
     }
 
-    reset() {
-        // noop
-    }
 }

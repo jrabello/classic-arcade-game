@@ -3,10 +3,11 @@ import { Resources } from "../core/resources.js";
 import { Utils } from "../core/utils.js";
 export class Enemy extends Entity {
     constructor() {
-        super({ dx: 0, dy: 0, sx: 1, sy: 77, sw: 98, sh: 67 }, { url: Resources.getConstants().images.enemy });
+        super({ dx: 0, dy: 0, sx: 1, sy: 77, sw: 98, sh: 67 }, { path: Resources.getConstants().images.enemy });
         this.reset();
     }
     render(dt) {
+        // move enemy
         super.incrementX(dt ? this.steps * dt : 0);
         // checks if enemy leaves board
         if (super.getX() > Resources.getConstants().world.size.width) {
@@ -22,4 +23,4 @@ export class Enemy extends Entity {
         this.steps = Utils.getRandomIntInclusive(15 * Enemy.velocity, 100 * Enemy.velocity);
     }
 }
-Enemy.velocity = 5;
+Enemy.velocity = 1;

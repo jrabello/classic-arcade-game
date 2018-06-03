@@ -6,7 +6,7 @@ import { Game } from "./core/game.js";
  * It's responsible for building necessary data structures and then start the game
  */
 function onInit() {
-    const game = new Game();
+    var game = new Game();
     game.start();
 }
 // Called when DOM is parsed and ready to be modified
