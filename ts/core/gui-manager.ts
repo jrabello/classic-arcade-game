@@ -60,5 +60,4 @@ export class GUIManager {
         window.requestAnimationFrame(GUIManager.mainLoop);
     }
 
-
 }

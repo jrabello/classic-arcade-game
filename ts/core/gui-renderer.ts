@@ -2,10 +2,13 @@ import { Resources } from "./resources.js";
 import { TEntityList, Entity } from "../entities/entity.js";
 import { TEnemyList } from "../entities/enemy.js";
 import { Player } from "../entities/player.js";
+import { GameState, Game } from "./game.js";
+
+
 
 export class GUIRenderer {
-    
-    entities: TEntityList;
+    player: Player;
+    enemies: TEnemyList;
     renderCtx: CanvasRenderingContext2D;
     private static rowImages: string[] = [
         Resources.getConstants().images.water,   // Top row is water
@@ -20,10 +23,11 @@ export class GUIRenderer {
         Resources.getConstants().world.size.width/Resources.getConstants().world.moveOffset.x;
     private static numCols: number = 
         Resources.getConstants().world.size.width/Resources.getConstants().world.moveOffset.x;
-    
-    constructor(canvas: HTMLCanvasElement, entities: TEntityList){
+
+
+    constructor(canvas: HTMLCanvasElement, entities: TEntityList) {
         this.renderCtx = canvas.getContext('2d');
-        this.entities = entities;
+        [this.player as Entity, ...this.enemies as TEntityList] = entities;
     }
 
     async init() {
@@ -36,7 +40,7 @@ export class GUIRenderer {
             Resources.getConstants().images.stone,
             Resources.getConstants().images.water,
             Resources.getConstants().images.grass,
-            ...this.entities.map(entity => entity.getImgUrl().url)
+            ...[this.player, ...this.enemies].map(entity => entity.getImgUrl().url)
         ]);
     }
 
@@ -76,7 +80,7 @@ export class GUIRenderer {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined2.
          */
-        this.entities.forEach((entity: Entity) => {
+        [this.player, ...this.enemies].forEach((entity: Entity) => {
             // changes entity position if needed
             entity.render(dt);
 
@@ -86,7 +90,7 @@ export class GUIRenderer {
                 entity.getX(),
                 entity.getY(),
             );
-            
+
             // this.renderCtx.strokeRect(
             //     entity.getX(),
             //     entity.getY(),
@@ -105,14 +109,20 @@ export class GUIRenderer {
     }
 
     update(dt): void {
-        this.renderEntities(dt);
-        this.checkColisions();
+        if (Game.state === GameState.running) {
+            this.renderEntities(dt);
+            this.checkColisions();
+        }
     }
 
     checkColisions(): void {
-        const [player, ...enemies] = this.entities;
-        if ((<Player>player).collidesWithAny(<TEnemyList>enemies)) {
-            console.log(`collision!!!!!!!!`);
+        if (this.player.collidesWithAny(this.enemies)) {
+            // show game over
+            (<HTMLElement>document.querySelector('.modal')).style.display = 'flex';
+            
+            // reset game
+            [this.player, ...this.enemies].forEach((entity: Entity) => entity.reset());
+            Game.state = GameState.paused;
         }
     }
 

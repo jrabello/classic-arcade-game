@@ -10,13 +10,10 @@ export class Player extends Entity implements IKeyboardUser {
     private keyboard: Keyboard;
 
     constructor() {
-        const initialX = 
-            Utils.getRandomIntInclusive(2, 3) * 
-            Resources.getConstants().world.moveOffset.x;
-        const initialY = 5 * Resources.getConstants().world.moveOffset.y;
         super(
-            { dx: initialX, dy: initialY , sx: 17, sy: 63, sw: 68, sh: 77}, 
+            { dx: 0, dy: 0 , sx: 17, sy: 63, sw: 68, sh: 77}, 
             { url: Resources.getConstants().images.player });
+        this.reset();
         this.keyboard = new Keyboard(this);
     }
 
@@ -64,4 +61,12 @@ export class Player extends Entity implements IKeyboardUser {
     // player does not need to render because keyboard controls its coordinates
     public render(dt?: number): void { }
 
+    public reset(): void {
+        const initialX = 
+        Utils.getRandomIntInclusive(0, 1) * 
+        Resources.getConstants().world.moveOffset.x;
+        const initialY = 5 * Resources.getConstants().world.moveOffset.y;
+        super.setX(initialX);
+        super.setY(initialY);
+    }
 }

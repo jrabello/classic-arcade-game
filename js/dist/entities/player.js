@@ -4,10 +4,8 @@ import { Resources } from "../core/resources.js";
 import { Utils } from "../core/utils.js";
 export class Player extends Entity {
     constructor() {
-        const initialX = Utils.getRandomIntInclusive(2, 3) *
-            Resources.getConstants().world.moveOffset.x;
-        const initialY = 5 * Resources.getConstants().world.moveOffset.y;
-        super({ dx: initialX, dy: initialY, sx: 17, sy: 63, sw: 68, sh: 77 }, { url: Resources.getConstants().images.player });
+        super({ dx: 0, dy: 0, sx: 17, sy: 63, sw: 68, sh: 77 }, { url: Resources.getConstants().images.player });
+        this.reset();
         this.keyboard = new Keyboard(this);
     }
     collidesWithAny(enemies) {
@@ -49,4 +47,11 @@ export class Player extends Entity {
     }
     // player does not need to render because keyboard controls its coordinates
     render(dt) { }
+    reset() {
+        const initialX = Utils.getRandomIntInclusive(0, 1) *
+            Resources.getConstants().world.moveOffset.x;
+        const initialY = 5 * Resources.getConstants().world.moveOffset.y;
+        super.setX(initialX);
+        super.setY(initialY);
+    }
 }

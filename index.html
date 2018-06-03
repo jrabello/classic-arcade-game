@@ -5,9 +5,6 @@
   <meta charset="UTF-8">
   <title>Effective JavaScript: Frogger</title>
   <link rel="stylesheet" href="css/style.css">
-  <style>
-   
-  </style>
 </head>
 
 <body>
@@ -15,7 +12,9 @@
   <div class="modal">
     <div class="modal-content">
       <p class="modal-text">You lost the game!</p>
-      <span class="close">&times;</span>
+      <span 
+        class="close"
+        onclick="document.querySelector('.modal').style.display = 'none'">&times;</span>
     </div>
   </div>
 

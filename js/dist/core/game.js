@@ -9,11 +9,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 import { Enemy } from "../entities/enemy.js";
 import { Player } from '../entities/player.js';
 import { GUIManager } from "./gui-manager.js";
+export var GameState;
+(function (GameState) {
+    GameState[GameState["none"] = 0] = "none";
+    GameState[GameState["running"] = 1] = "running";
+    GameState[GameState["paused"] = 2] = "paused";
+})(GameState || (GameState = {}));
 export class Game {
     constructor() {
         // creates player and enemies
         const player = new Player();
-        const enemies = Array(8)
+        const enemies = Array(10)
             .fill(0)
             .map(_ => new Enemy());
         this.guiManager = new GUIManager([
@@ -23,9 +29,10 @@ export class Game {
     }
     start() {
         return __awaiter(this, void 0, void 0, function* () {
+            Game.state = GameState.running;
             yield this.guiManager.run();
         });
     }
-    restart() {
+    static restart() {
     }
 }

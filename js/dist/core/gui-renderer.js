@@ -7,10 +7,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { Resources } from "./resources.js";
+import { GameState, Game } from "./game.js";
 export class GUIRenderer {
     constructor(canvas, entities) {
         this.renderCtx = canvas.getContext('2d');
-        this.entities = entities;
+        [this.player, ...this.enemies] = entities;
     }
     init() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -24,7 +25,7 @@ export class GUIRenderer {
                 Resources.getConstants().images.stone,
                 Resources.getConstants().images.water,
                 Resources.getConstants().images.grass,
-                ...this.entities.map(entity => entity.getImgUrl().url)
+                ...[this.player, ...this.enemies].map(entity => entity.getImgUrl().url)
             ]);
         });
     }
@@ -56,7 +57,7 @@ export class GUIRenderer {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined2.
          */
-        this.entities.forEach((entity) => {
+        [this.player, ...this.enemies].forEach((entity) => {
             // changes entity position if needed
             entity.render(dt);
             // draws entity
@@ -76,13 +77,18 @@ export class GUIRenderer {
         });
     }
     update(dt) {
-        this.renderEntities(dt);
-        this.checkColisions();
+        if (Game.state === GameState.running) {
+            this.renderEntities(dt);
+            this.checkColisions();
+        }
     }
     checkColisions() {
-        const [player, ...enemies] = this.entities;
-        if (player.collidesWithAny(enemies)) {
-            console.log(`collision!!!!!!!!`);
+        if (this.player.collidesWithAny(this.enemies)) {
+            // show game over
+            document.querySelector('.modal').style.display = 'flex';
+            // reset game
+            [this.player, ...this.enemies].forEach((entity) => entity.reset());
+            Game.state = GameState.paused;
         }
     }
     reset() {

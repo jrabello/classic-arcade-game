@@ -31,6 +31,7 @@ export abstract class Entity {
     
     // forces child classes to implement this method to be rendered
     abstract render(dt?: number): void;
+    abstract reset(): void;
     
     // checks if current object collides with anoher one
     collidesWith(entity: Entity): boolean {

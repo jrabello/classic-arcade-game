@@ -7,13 +7,13 @@ export declare type TEnemyList = Enemy[];
 export class Enemy extends Entity {
     
     private steps;
-    private static velocity = 10; 
+    private static velocity = 5; 
 
     constructor() {
         super(
             { dx: 0, dy: 0 , sx: 1, sy: 77, sw: 98, sh: 67 }, 
             { url: Resources.getConstants().images.enemy });
-        this.resetEnemy();
+        this.reset();
     }
 
     public render(dt?: number): void {
@@ -21,15 +21,16 @@ export class Enemy extends Entity {
 
         // checks if enemy leaves board
         if(super.getX() > Resources.getConstants().world.size.width){
-            this.resetEnemy();
+            this.reset();
         }
     }
 
-    private resetEnemy(): void {
-        super.setX(-1 * Resources.getConstants().world.moveOffset.x);
-        super.setY(
-            Utils.getRandomIntInclusive(1, 4) *
-            Resources.getConstants().world.moveOffset.y);
-        this.steps = Utils.getRandomIntInclusive(50*Enemy.velocity, 80*Enemy.velocity);
+    public reset(): void {
+        const outsideMap = -1 * Resources.getConstants().world.moveOffset.x;
+        const random = Utils.getRandomIntInclusive(1, 4) *
+                        Resources.getConstants().world.moveOffset.y
+        super.setX(outsideMap);
+        super.setY(random);
+        this.steps = Utils.getRandomIntInclusive(15*Enemy.velocity, 100*Enemy.velocity);
     }
 }
