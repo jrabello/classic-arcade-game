@@ -13,9 +13,6 @@ export class Keyboard {
     getDirection(keyCode) {
         return Keyboard.keyMap[keyCode];
     }
-    isKeyValid(keyCode) {
-        return Keyboard.keyMap[keyCode] !== undefined;
-    }
     static handleInput(keyCode) {
         // if valid key we can move player now
         switch (Keyboard.self.getDirection(keyCode)) {

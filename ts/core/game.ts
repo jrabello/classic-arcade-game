@@ -36,7 +36,10 @@ export class Game {
     public async start() {
         Game.self.state = GameState.running;
     }
-
+    
+    /**
+     * restarts game by hiding modal and reseting entities state
+     */
     public static restart() {
         // hide modal
         (<HTMLElement>document.getElementById('modal')).style.display = 'none';

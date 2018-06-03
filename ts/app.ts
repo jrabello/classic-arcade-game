@@ -1,6 +1,6 @@
 import { Game } from "./core/game.js";
 
-// compile it
+// compile it going into ts folder and typing:
 // tsc -t es6 --outDir ../js/dist app.ts
 
 /**

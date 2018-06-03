@@ -6,7 +6,7 @@ export declare type TEnemyList = Enemy[];
 
 export class Enemy extends Entity {
     private steps;
-    private static velocity = 1; 
+    private static velocity = 5; 
 
     constructor() {
         super(

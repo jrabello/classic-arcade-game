@@ -23,4 +23,4 @@ export class Enemy extends Entity {
         this.steps = Utils.getRandomIntInclusive(15 * Enemy.velocity, 100 * Enemy.velocity);
     }
 }
-Enemy.velocity = 1;
+Enemy.velocity = 5;

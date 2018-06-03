@@ -62,8 +62,18 @@ export class GUIRenderer {
             entity.render(dt);
             // draws entity
             this.renderCtx.drawImage(Resources.getFromCache(entity.getImgPath()), entity.getX(), entity.getY());
-            this.renderCtx.strokeRect(entity.getX(), entity.getY(), 101, 171);
-            this.renderCtx.strokeRect(entity.getX() + entity.getSX(), entity.getY() + entity.getSY(), entity.getWidth(), entity.getHeight());
+            // this.renderCtx.strokeRect(
+            //     entity.getX(),
+            //     entity.getY(),
+            //     101,
+            //     171
+            // );
+            // this.renderCtx.strokeRect(
+            //     entity.getX()+entity.getSX(),
+            //     entity.getY()+entity.getSY(),
+            //     entity.getWidth(),
+            //     entity.getHeight(),
+            // );
         });
     }
     update(dt) {

@@ -32,9 +32,12 @@ export class GUIRenderer {
     async init() {
         await this.buildResourceCache();
     }
-
-    private async buildResourceCache() {
-        // load images in cache( hashmaps FTW :D )
+    
+    /**
+     * Caches images inside resource hashmap
+     * @returns Promise
+     */
+    private async buildResourceCache(): Promise<void> {
         await Resources.fillResourceCache([
             Resources.getConstants().images.stone,
             Resources.getConstants().images.water,
@@ -90,28 +93,37 @@ export class GUIRenderer {
                 entity.getY(),
             );
 
-            this.renderCtx.strokeRect(
-                entity.getX(),
-                entity.getY(),
-                101,
-                171
-            );
+            // this.renderCtx.strokeRect(
+            //     entity.getX(),
+            //     entity.getY(),
+            //     101,
+            //     171
+            // );
 
-            this.renderCtx.strokeRect(
-                entity.getX()+entity.getSX(),
-                entity.getY()+entity.getSY(),
-                entity.getWidth(),
-                entity.getHeight(),
-            );
+            // this.renderCtx.strokeRect(
+            //     entity.getX()+entity.getSX(),
+            //     entity.getY()+entity.getSY(),
+            //     entity.getWidth(),
+            //     entity.getHeight(),
+            // );
 
         });
     }
 
-    update(dt): void {
+    /**
+     * Updates entities and check colisions
+     * @param  {number} dt
+     * @returns void
+     */
+    update(dt: number): void {
         this.renderEntities(dt);
         this.checkColisions();
     }
-
+    
+    /**
+     * Checks colisions and display messages if user won or loose
+     * @returns void
+     */
     checkColisions(): void {
         let collidedMsg: string = '';
 
